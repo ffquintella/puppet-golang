@@ -2,7 +2,7 @@
 GOROOT="<%= @workdir %>go"
 <% end -%>
 GOPATH="<%= @workdir %>"
-PATH="<%= @goroot %>"
+PATH="$PATH:<%= @goroot %>"
 <% if @from_source == true then -%>
 export GOPATH PATH GOROOT
 <% elsif @from_source == false then -%>
