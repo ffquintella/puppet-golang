@@ -3,12 +3,12 @@ class golang::params {
 
   $manage_dependencies = true
 
-  if $::os::id == 'OracleServer' {
+  if $::operatingsystem == 'OracleLinux' {
     $from_source         = true
   }else{
     $from_source         = false
   }
-
+ 
   validate_bool($from_source)
 
   if ($from_source) {
