@@ -3,12 +3,9 @@ class golang::params {
 
   $manage_dependencies = true
 
-  if $::operatingsystem == 'OracleLinux' {
-    $from_source         = true
-  }else{
-    $from_source         = false
-  }
- 
+  $from_source         = false
+
+
   validate_bool($from_source)
 
   if ($from_source) {
