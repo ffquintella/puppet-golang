@@ -42,7 +42,7 @@ class golang::install {
 
       exec { 'enable repo':
         command => 'yum-config-manager --enable ol7_optional_latest',
-        path    => '/usr/bin'
+        path    => '/usr/bin',
         creates => '/var/run/.optional_on'
       } ->
 
