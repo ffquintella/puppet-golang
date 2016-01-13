@@ -4,7 +4,7 @@ class golang::install {
   validate_bool($golang::from_source)
 
   if $golang::from_source {
-  
+
     vcsrepo { $golang::base_dir:
     ensure   => present,
     provider => git,
@@ -12,7 +12,7 @@ class golang::install {
     revision => 'master',
     before   => [Exec['make GO'], Exec['checkout go']]
     }
-  
+
     exec { 'checkout go':
     path    => '/usr/bin:/usr/sbin:/bin:/usr/local/bin',
     command => "git checkout ${golang::source_version}",
@@ -32,17 +32,43 @@ class golang::install {
     before  => File['/etc/profile.d/golang.sh']
     }
   }
-  
+
   else {
-    package { 'golang':
-    ensure => $golang::package_version,
+
+    if $::operatingsystem == 'OracleLinux' {
+      package { 'yum-utils':
+        ensure => present
+      } ->
+
+      exec { 'enable repo'
+        command => 'yum-config-manager --enable ol7_optional_latest',
+        path    => '/usr/bin'
+        creates => '/apps/.control/optional_on'
+      } ->
+
+      file { '/apps/.control/optional_on':
+        ensure => present,
+        content => '-'
+      } ->
+
+      package { 'golang':
+        ensure => $golang::package_version,
+      }
+
+    }else {
+      package { 'golang':
+        ensure => $golang::package_version,
+      }
     }
-    
+
+
+
+
     file { [$golang::base_dir, "${$golang::base_dir}/src"]:
     ensure => directory,
     }
   }
-  
+
   file { '/etc/profile.d/golang.sh':
   ensure  => present,
   content => template('golang/golang.sh.erb'),
