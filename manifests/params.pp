@@ -2,7 +2,12 @@
 class golang::params {
 
   $manage_dependencies = true
-  $from_source         = false
+
+  if $::os::id == 'OracleServer' {
+    $from_source         = true
+  }else{
+    $from_source         = false
+  }
 
   validate_bool($from_source)
 
