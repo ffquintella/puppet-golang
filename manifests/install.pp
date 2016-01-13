@@ -1,5 +1,5 @@
 # This manifest builds Golang
-class golang::install {
+class golang::install inherits golang::params {
 
   validate_bool($golang::from_source)
 
