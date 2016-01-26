@@ -52,7 +52,7 @@ class golang::install inherits golang::params {
       } ->
 
       package { 'golang':
-        ensure => $golang::package_version,
+        ensure => present,
       }
 
     }else {
